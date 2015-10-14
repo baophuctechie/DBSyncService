@@ -18,6 +18,8 @@ public class PersonMapper implements RowMapper<Person> {
         person.setLastName(rs.getString("lastName"));
         person.setSchool(rs.getString("school"));
         person.setRollNumber(rs.getInt("rollNumber"));
+        person.setCreatedTime(rs.getInt("create_time"));
+
         return person;
     }
 }

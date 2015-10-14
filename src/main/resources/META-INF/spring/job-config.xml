@@ -4,7 +4,6 @@
 	xmlns:task="http://www.springframework.org/schema/task"	
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:jdbc="http://www.springframework.org/schema/jdbc"	
 	xsi:schemaLocation="http://www.springframework.org/schema/beans	
 	http://www.springframework.org/schema/beans/spring-beans.xsd 	
     http://www.springframework.org/schema/beans 
@@ -12,9 +11,7 @@
     http://www.springframework.org/schema/batch 
     http://www.springframework.org/schema/batch/spring-batch.xsd
     http://www.springframework.org/schema/context 
-    http://www.springframework.org/schema/context/spring-context.xsd 			
-    http://www.springframework.org/schema/jdbc 
-	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+    http://www.springframework.org/schema/context/spring-context.xsd
 	http://www.springframework.org/schema/task
 	http://www.springframework.org/schema/task/spring-task.xsd">
 	
@@ -24,7 +21,7 @@
     <batch:job id="byrspDashboardJob" xmlns="http://www.springframework.org/schema/batch" restartable="true">
         <batch:step id="dataExportImport" allow-start-if-complete="true">
             <batch:tasklet>
-                <batch:chunk reader="itemMySqlReader" writer="itemMsSqlWriter"
+                <batch:chunk reader="itemMySqlReader" processor="itemProcessor" writer="itemMsSqlWriter"
                              chunk-completion-policy="batchJobCompletionPolicy" />
             </batch:tasklet>
         </batch:step>
@@ -33,11 +30,17 @@
     <!-- Here we are reading the data from MySQL Server -->
     <bean id="itemMySqlReader" class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
         <property name="dataSource" ref="dataSource" />
-        <property name="sql" value="select id, firstName, lastName, school, rollNumber from person" />
+        <property name="sql" value="select id, firstName, lastName, school, rollNumber, create_time from person" />
         <property name="rowMapper">
             <bean class="com.waverley.byrsp.dashboard.mapper.PersonMapper" />
         </property>
 
+    </bean>
+
+    <!-- Item Processor to get only data available since yesterday -->
+    <bean id="itemProcessor" class="com.waverley.byrsp.dashboard.utils.PersonItemProcessor">
+        <!-- number of seconds to minus by current date -->
+        <property name="margin" value="86400" />
     </bean>
 
     <!-- Here we 're writing the result directly to Microsoft SQL Server -->
@@ -60,11 +63,12 @@
     <bean id="batchJobCompletionPolicy"
           class="org.springframework.batch.repeat.policy.DefaultResultCompletionPolicy" />
 
-    <bean id="myScheduler" class="com.waverley.byrsp.dashboard.utils.DbSyncScheduler"/>
+    <bean id="myScheduler" class="com.waverley.byrsp.dashboard.utils.DbSyncScheduler" />
 	<!-- this is where we are scheduling the job to run using our scheduler every 5 secs, note how the method of the
 	     scheduler and the cron expression to be used are being specified -->
 	<task:scheduled-tasks>
-		<task:scheduled ref="myScheduler" method="run" cron="*/5 * * * * *"/>
-	</task:scheduled-tasks>	
-	
-	</beans>
+        <!-- The cron job runs every day at 1:00 A.M -->
+		<task:scheduled ref="myScheduler" method="run" cron="*/5 * * * * *" />
+        <!--<task:scheduled ref="myScheduler" method="run" cron="*/0 0 1 * * ?" />-->
+	</task:scheduled-tasks>
+</beans>

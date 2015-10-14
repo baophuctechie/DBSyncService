@@ -9,6 +9,7 @@ public class Person extends BeanPropertyItemSqlParameterSourceProvider {
     int id;
     String firstName, lastName, school;
     int rollNumber;
+    int createdTime;
 
     public String getFirstName() {
         return firstName;
@@ -33,6 +34,14 @@ public class Person extends BeanPropertyItemSqlParameterSourceProvider {
     }
     public void setRollNumber(int rollNumber) {
         this.rollNumber = rollNumber;
+    }
+
+    public int getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(int createdTime) {
+        this.createdTime = createdTime;
     }
 
     public int getId() {
