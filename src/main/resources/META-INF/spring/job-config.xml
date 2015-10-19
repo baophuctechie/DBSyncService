@@ -30,15 +30,18 @@
     <!-- Here we are reading the data from MySQL Server -->
     <bean id="itemMySqlReader" class="org.springframework.batch.item.database.JdbcCursorItemReader" scope="step">
         <property name="dataSource" ref="dataSource" />
-        <property name="sql" value="select id, firstName, lastName, school, rollNumber, create_time from person" />
+        <property name="sql" value="select trade_id, order_id, retailer_id, retailer,
+                        url, buyer, price, tax, shipping_fee, shipping_address, coupon,
+                        status, create_time, last_update_time, done_time, memo, logs,
+                        screenshot, partner_id, email, test_status, error_message from _order" />
         <property name="rowMapper">
-            <bean class="com.waverley.byrsp.dashboard.mapper.PersonMapper" />
+            <bean class="com.waverley.byrsp.dashboard.mapper.OrderMapper" />
         </property>
 
     </bean>
 
     <!-- Item Processor to get only data available since yesterday -->
-    <bean id="itemProcessor" class="com.waverley.byrsp.dashboard.utils.PersonItemProcessor">
+    <bean id="itemProcessor" class="com.waverley.byrsp.dashboard.utils.OrderItemProcessor">
         <!-- number of seconds to minus by current date -->
         <property name="margin" value="86400" />
     </bean>
@@ -49,13 +52,19 @@
         <property name="sql">
             <value>
                 <![CDATA[
-                   insert into person (id, firstName, lastName, school, rollNumber)
-                   values (:id, :firstName, :lastName, :school, :rollNumber)
+                   insert into _order (trade_id, order_id, retailer_id, retailer, url, buyer,
+                                price, tax, shipping_fee, shipping_address, coupon, status,
+                                create_time,last_update_time, done_time, memo, logs,
+                                screenshot, partner_id, email, test_status, error_message)
+                   values (:tradeId, :orderId, :retailerId, :retailer, :url, :buyer,
+                            :price, :tax, :shippingFee, :shippingAddress, :coupon, :status,
+                            :createTime, :lastUpdateTime, :doneTime, :memo, :logs,
+                            :screenshot, :partnerId, :email, :testStatus, :errorMessage)
                 ]]>
             </value>
         </property>
         <property name="itemSqlParameterSourceProvider">
-            <bean class="com.waverley.byrsp.dashboard.model.Person" />
+            <bean class="com.waverley.byrsp.dashboard.model.Order" />
         </property>
     </bean>
 
@@ -69,6 +78,5 @@
 	<task:scheduled-tasks>
         <!-- The cron job runs every day at 1:00 A.M -->
 		<task:scheduled ref="myScheduler" method="run" cron="*/5 * * * * *" />
-        <!--<task:scheduled ref="myScheduler" method="run" cron="*/0 0 1 * * ?" />-->
 	</task:scheduled-tasks>
 </beans>

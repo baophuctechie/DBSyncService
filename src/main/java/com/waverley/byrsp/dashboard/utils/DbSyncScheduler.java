@@ -25,7 +25,7 @@ public class DbSyncScheduler {
 
     private JobExecution execution;
 
-    public void run(){
+    public void run() {
         try {
             execution = launcher.run(job, new JobParameters());
             System.out.println("Execution status: "+ execution.getStatus());
