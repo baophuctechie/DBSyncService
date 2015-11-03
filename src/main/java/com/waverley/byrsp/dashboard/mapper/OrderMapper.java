@@ -16,12 +16,12 @@ public class OrderMapper implements RowMapper<Order> {
     public Order mapRow(ResultSet rs, int i) throws SQLException {
 
         Order order = new Order();
-        order.setTradeId(new BigInteger(rs.getString(Constant.ORDER_TRADE_ID)));
-        order.setOrderId(new BigInteger(rs.getString(Constant.ORDER_ORDER_ID)));
-        order.setRetailerId(new BigInteger(rs.getString(Constant.ORDER_RETAILER_ID)));
+        order.setTradeId(new Long(rs.getString(Constant.ORDER_TRADE_ID)));
+        order.setOrderId(new Long(rs.getString(Constant.ORDER_ORDER_ID)));
+        order.setRetailerId(new Long(rs.getString(Constant.ORDER_RETAILER_ID)));
         order.setRetailer(rs.getString(Constant.ORDER_RETAILER));
         order.setUrl(rs.getString(Constant.ORDER_URL));
-        order.setBuyer(new BigInteger(rs.getString(Constant.ORDER_BUYER)));
+        order.setBuyer(new Long(rs.getString(Constant.ORDER_BUYER)));
         order.setPrice(rs.getInt(Constant.ORDER_PRICE));
         order.setTax(rs.getInt(Constant.ORDER_TAX));
         order.setShippingFee(rs.getInt(Constant.ORDER_SHIPPING_FEE));

@@ -24,21 +24,20 @@
     <bean id="transactionManager"
 	class="org.springframework.batch.support.transaction.ResourcelessTransactionManager" />
 
-	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+	<!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://192.168.40.43:3306/test_report" />
 		<property name="username" value="root" />
 		<property name="password" value="admin" />
 	</bean>
-
     <bean id="dataDestination" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver" />
         <property name="url" value="jdbc:jtds:sqlserver://192.168.40.42:1433/test;instance=SQLEXPRESS" />
         <property name="username" value="sa" />
         <property name="password" value="sa" />
-    </bean>
+    </bean>-->
 
-   <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+   <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="url" value="jdbc:mysql://10.77.232.22:3306/rsp" />
         <property name="username" value="readrsp" />
@@ -46,11 +45,11 @@
     </bean>
 
     <bean id="dataDestination" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url" value="jdbc:mysql://52.2.99.207:3306/test_report" />
-        <property name="username" value="root" />
-        <property name="password" value="admin" />
-    </bean>-->
+    <property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+    <property name="url" value="jdbc:sqlserver://n4bo2i9etv.database.windows.net:1433;databaseName=byrsp_sql_qa_01" />
+    <property name="username" value="ATF" />
+    <property name="password" value="ThaiFood45" />
+    </bean>
 <!--
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
@@ -68,10 +67,8 @@
 
 	<!-- Create meta-tables -->
 	<jdbc:initialize-database data-source="dataSource">
-		<!--<jdbc:script location="org/springframework/batch/core/schema-drop-mysql.sql" />
-		<jdbc:script location="org/springframework/batch/core/schema-mysql.sql" />-->
-        <jdbc:script location="classpath:spring-batch/scripts/schema-drop-mysql.sql" />
-        <jdbc:script location="classpath:spring-batch/scripts/schema-mysql.sql" />
+		<jdbc:script location="org/springframework/batch/core/schema-drop-mysql.sql" />
+		<jdbc:script location="org/springframework/batch/core/schema-mysql.sql" />
     </jdbc:initialize-database>
 
 </beans>

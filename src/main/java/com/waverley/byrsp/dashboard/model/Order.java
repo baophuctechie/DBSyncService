@@ -2,19 +2,19 @@ package com.waverley.byrsp.dashboard.model;
 
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
 
-import java.math.BigInteger;
+//import java.math.BigInteger;
 
 /**
  * Created by linhnguyen on 10/12/15.
  */
 public class Order extends BeanPropertyItemSqlParameterSourceProvider {
 
-    BigInteger tradeId;
-    BigInteger orderId;
-    BigInteger retailerId;
+    Long tradeId;
+    Long orderId;
+    Long retailerId;
     String retailer;
     String url;
-    BigInteger buyer;
+    Long buyer;
     int price;
     int tax;
     int shippingFee;
@@ -32,27 +32,27 @@ public class Order extends BeanPropertyItemSqlParameterSourceProvider {
     int  testStatus;
     String errorMessage;
 
-    public BigInteger getTradeId() {
+    public Long getTradeId() {
         return tradeId;
     }
 
-    public void setTradeId(BigInteger tradeId) {
+    public void setTradeId(Long tradeId) {
         this.tradeId = tradeId;
     }
 
-    public BigInteger getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(BigInteger orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 
-    public BigInteger getRetailerId() {
+    public Long getRetailerId() {
         return retailerId;
     }
 
-    public void setRetailerId(BigInteger retailerId) {
+    public void setRetailerId(Long retailerId) {
         this.retailerId = retailerId;
     }
 
@@ -72,11 +72,11 @@ public class Order extends BeanPropertyItemSqlParameterSourceProvider {
         this.url = url;
     }
 
-    public BigInteger getBuyer() {
+    public Long getBuyer() {
         return buyer;
     }
 
-    public void setBuyer(BigInteger buyer) {
+    public void setBuyer(Long buyer) {
         this.buyer = buyer;
     }
 

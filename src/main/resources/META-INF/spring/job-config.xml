@@ -19,7 +19,7 @@
 
     <!-- Batch Job definition -->
     <batch:job id="byrspDashboardJob" xmlns="http://www.springframework.org/schema/batch" restartable="true">
-        <batch:step id="dataExportImport" allow-start-if-complete="true">
+        <batch:step id="DBSynchronization" allow-start-if-complete="true">
             <batch:tasklet>
                 <batch:chunk reader="itemMySqlReader" processor="itemProcessor" writer="itemMsSqlWriter"
                              chunk-completion-policy="batchJobCompletionPolicy" />
@@ -76,7 +76,8 @@
 	<!-- this is where we are scheduling the job to run using our scheduler every 5 secs, note how the method of the
 	     scheduler and the cron expression to be used are being specified -->
 	<task:scheduled-tasks>
-        <!-- The cron job runs every day at 1:00 A.M -->
-		<task:scheduled ref="myScheduler" method="run" cron="*/5 * * * * *" />
+        <!-- The cron job runs every day at 10:00 A.M -->
+		<task:scheduled ref="myScheduler" method="run" cron="0 5 10 * * ?" />
+        <!--<task:scheduled ref="myScheduler" method="run" cron="*/0 0 10 * * *" />-->
 	</task:scheduled-tasks>
 </beans>
